@@ -1,0 +1,68 @@
+{% extends "person/person_base.html" %}
+
+{% block pregroup %}
+
+  <div class="content" align=center>
+    <div  style="background:white;width:1000px;" class="jumbotron" align="center">
+        <img   src="{{person.profilepic.url}}" alt="no image" height="15%" width="15%" style="border-radius:50%" \>
+        <h3 align="center"><b>{{person.name}}</b></h3>
+        {% if person in user.person.friend.all %}
+
+          <a href="{% url 'person:unfriend2' slug=person.slug %}" class="btn btn-lg btn-fill btn-primary"> Unfriend</a>
+
+        {% else %}
+
+
+          <a href="{% url 'person:addfriend2' slug=person.slug %}" class="btn btn-lg btn-fill btn-primary"><span class="glyphicon"></span>Add Friend</a>
+
+
+        {% endif %}
+      </div>
+      <h3 align=left><b>Person Description:</b></h3>
+<div style="background:white;width:1000px;" class="jumbotron" align="left">
+
+      <h3 align="left">{{person.description|safe|linebreaksbr|linebreaks}}</h3>
+  
+  {% if person.dob_in_dd_mm_yyyy %}
+    <h3 align="left"><b>D.O.B. </b>{{person.dob_in_dd_mm_yyyy|date:"d-m-Y" }}</h3>
+  {% endif %}
+  {% if person.lives_in %}
+    <h3 align="left"><b>Lives In </b>{{person.lives_in|safe }}</h3>
+  {% endif %}
+  {% if person.studies_at %}
+    <h3 align="left"><b>Studies At </b>{{person.studies_at|safe }}</h3>
+  {% endif %}
+    </div>
+
+  </div>
+  <h3 align=left><b>All Posts:</b></h3>
+
+    {% for i in person.user.posts.all %}
+    <div style="background:white;width:700px;" class="jumbotron">
+    <img src="{{person.profilepic.url}}" alt="no image"  align="left" style="border-radius:50%" \>
+
+    <h3 align="left"><b><a  style="color:black" href="#">{{ person.user }}</a></b></h3>
+
+    <h5 align="left" style="color:blue">{{i.created_at}}</h5>
+    <br>
+    <hr style="color:"black";">
+    <h5 align="left">{{i.caption|safe|linebreaks|linebreaksbr}}</h5>
+
+  <div class="image" align="center">
+    {% if i.cover %}
+    <img src="{{i.cover.url}}" alt="no image"  \>
+    {% endif %}
+  </div>
+  <h4 align="left" style="margin-left:25px">{{i.like.count}} Likes {{i.comments.count}} Comments</h4>
+  <hr style="width:100%">
+
+
+    </div>
+    {% endfor %}
+
+
+
+
+</div>
+
+{% endblock %}

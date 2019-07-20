@@ -1,0 +1,111 @@
+{% extends 'posts/post_base.html' %}
+{% block post_content %}
+{% if request.user.is_authenticated %}
+<div class="mainpage" align="center" >
+
+
+  {% if  not user.person %}
+
+      <div class="container" align="center">
+        <div class="row">
+          <div class="jumbotron">
+            <h5>PLEASE COMPLETE YOUR PROFILE!</h5>
+            <a href="{% url 'person:create' %}"><button type="button" name="Login" class='btn btn-large btn-primary'>CreateAccount</button></a>
+          </div>
+        </div>
+      </div>
+
+
+  {% else %}
+  {% if  user.person.friend.all %}
+
+
+
+  {% for i in object_list %}
+    {% for j in user.person.friend.all %}
+
+
+
+        {% if i.user.id == j.user.id  %}
+          <div style="background:white;width:700px;" class="jumbotron">
+          <img src="{{j.profilepic.url}}" alt="no image"  align="left" style="border-radius:50%" \>
+
+          <h3 align="left"><b><a  style="color:black" href="{% url 'person:single' slug=i.user.person.slug %}">{{ i.user.person }}</a></b></h3>
+
+          <h5 align="left" style="color:blue">{{i.created_at}}</h5>
+          <br>
+          <hr style="color:"black";">
+          <h5 align="left">{{i.caption|safe|linebreaks|linebreaksbr}}</h5>
+
+        <div class="image" align="center">
+          {% if i.cover %}
+          <img src="{{i.cover.url}}" alt="no image"  \>
+          {% endif %}
+        </div>
+        <h4 align="left" style="margin-left:25px">{{i.like.count}} Likes {{i.comments.count}} Comments</h4>
+        <hr style="width:100%">
+
+        <table style="width:100%">
+
+          <tr>
+            {% if request.user in i.like.all %}
+              <td><h3 align="left"><a href="{% url 'posts:likepost'  pk=i.pk %}" ><span class='glyphicon glyphicon-heart'>Like</span></a></h3></td>
+            {% else %}
+            <td><h3 align="left"><a href="{% url 'posts:likepost'  pk=i.pk %}" ><span class='glyphicon glyphicon-heart-empty'>Like</span></a></h3></td>
+            {% endif %}
+            <td><h3 align="center"><a href="{% url 'comment:single' pk=i.pk %}" ><span class='glyphicon glyphicon-comment'>Comment</span></a></h3></td>
+            <td><h3 align="right"><a href="{% url 'posts:sharepost'  pk=i.pk %}" ><span class='glyphicon glyphicon-send' >Share</span></a></h3></td>
+          </tr>
+
+        </table>
+          </div>
+          {% endif %}
+
+
+    {% endfor %}
+  {% endfor %}
+
+
+
+{% else %}
+<h1>please add friends to see their posts</h1>
+{% endif %}
+
+{% endif %}
+</div>
+{% else %}
+<div class="base">
+
+
+    <h1 style="color:blue; font-family: 'DM Serif Text', serif;">WELCOME TO VcONNECT</h1>
+    <div class="login">
+
+    <div class="container">
+      <div class="row">
+        <div class="jumbotron">
+          <h5>PLEASE LOGIN!</h5>
+          <a href="{% url 'accounts:login' %}"><button type="button" name="Login" class='btn btn-large btn-primary'>Login</button></a>
+
+        </div>
+
+      </div>
+
+    </div>
+    </div>
+    <h3 style="color:blue; font-family: 'DM Serif Text', serif;"">or</h3>
+    <br>
+    <div class="container">
+      <div class="row">
+        <div class="jumbotron">
+          <h5>Create New Account</h5>
+          <h5>Signup!</h5>
+          <a href="{% url 'accounts:signup' %}"><button type="button" name="signup" class='btn btn-large btn-primary'>Sign Up</button></a>
+
+        </div>
+
+      </div>
+
+    </div>
+</div>
+{% endif %}
+{% endblock %}

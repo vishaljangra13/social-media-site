@@ -1,0 +1,14 @@
+{% extends "comment/comment_base.html" %}
+{% block comment_content %}
+
+
+
+  {% for i in post.comments.all %}
+  <div style="background:white;width:700px;" class="jumbotron" align="center">
+    <img src="{{post.user.person.profilepic.url}}" alt="no image"  align="left" style="border-radius:50%" \>
+    <h3>{{i.personcomment}}</h3>
+  </div>
+
+  {% endfor %}
+
+{% endblock %}

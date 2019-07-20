@@ -1,0 +1,11 @@
+{% extends "person/person_base.html" %}
+{% load bootstrap3 %}
+
+{% block group_content %}
+<h4>Create Account</h4>
+  <form method="POST" action="{% url 'person:create' %}" id="personForm"  enctype="multipart/form-data">
+  	{% csrf_token %}
+  	{% bootstrap_form form %}
+  	<input type="submit" value="Create Account" class="btn btn-primary btn-large">
+  </form>
+{% endblock %}

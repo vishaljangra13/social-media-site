@@ -1,0 +1,17 @@
+{% extends "comment/comment_base.html" %}
+{% block comment_content %}
+
+
+
+  {% for i in post.comments.all %}
+  <img src="{{post.user.person.profilepic.url}}" alt="no image"  align="left" style="border-radius:50%" \>
+  <h3 >{{i.user}}</h3>
+  <div style="background:white;width:700px;" class="jumbotron" align="center">
+
+    <h3 >{{i.add_comment}}</h3>
+  </div>
+
+  {% endfor %}
+    <h5><a href="{% url 'comment:add_comment_to_post' pk=post.pk%}" class='btn btn-primary btn-large'>Add Comment</a></h5>
+
+{% endblock %}

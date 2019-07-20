@@ -1,0 +1,46 @@
+{% extends "person/person_base.html" %}
+
+{% block group_content %}
+
+
+
+<div class="container">
+
+
+		{% for j in object_list %}
+<div class="container" align=center>
+
+
+						{% if j in user.person.friend.all %}
+							<div  style="background:white;width:700px;" class="jumbotron" align="center">
+
+
+								<img align="left"  src="{{j.profilepic.url}}" alt="no image"  style="border-radius:50%" \>
+							<h3  style="color:black" class="title list-group-item-heading"><a href="{% url 'person:single' slug=j.slug %}">{{ j.name }}</a></h3>
+							<a href="{% url 'person:unfriend' slug=j.slug %}" class="btn btn-lg btn-fill btn-primary"> Unfriend</a>
+							</div>
+
+						{% else %}
+
+						{% if  not j == user.person %}
+						<div  style="background:white;width:700px;" class="jumbotron" align="center">
+
+
+
+
+							<img align="left"  src="{{j.profilepic.url}}" alt="no image"  style="border-radius:50%" \>
+						<h3 class="title list-group-item-heading"><a href="{% url 'person:single' slug=j.slug %}">{{ j.name }}</a></h3>
+							<a href="{% url 'person:addfriend' slug=j.slug %}" class="btn btn-lg btn-fill btn-primary"><span class="glyphicon"></span>Add Friend</a>
+							</div>
+
+						{% endif %}
+						{% endif %}
+
+
+
+</div>
+		{% endfor %}
+		</div>
+
+
+{% endblock %}
